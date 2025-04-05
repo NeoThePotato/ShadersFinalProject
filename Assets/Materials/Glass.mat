@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GrassBase
+  m_Name: Glass
   m_Shader: {fileID: -6465566751694194690, guid: 588bd87d9b71e2a4f9b918dff6e30bd1, type: 3}
   m_Parent: {fileID: -876546973899608171, guid: 588bd87d9b71e2a4f9b918dff6e30bd1, type: 3}
   m_ModifiedSerializedProperties: 2
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 074a05e8a55687e4caca48a21bfcd9b0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9469b94011534a64ab8134aa0f5fc18b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
