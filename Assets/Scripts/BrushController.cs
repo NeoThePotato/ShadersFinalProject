@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Mathematics;
 using Unity.Burst;
+using static BrushController;
 
 public class BrushController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class BrushController : MonoBehaviour
 	private BrushData _brush;
 	private CommandBuffer _cmd;
 
-	public bool IsColorMode => _brush.Mode == BrushData.BrushMode.Color;
+	public bool IsColorMode => _brush.Color;
 
 	public bool IsPainting { get => _brush.Painting; private set => _brush.Painting = value; }
 
@@ -22,6 +23,7 @@ public class BrushController : MonoBehaviour
 	{
 		_brush.texture = _defaultTexture;
 		_brush.scale = 0.1f;
+		_brush.intensity = 1f;
 		_cmd = new();
 	}
 
@@ -42,25 +44,17 @@ public class BrushController : MonoBehaviour
 		public Texture texture;
 		public float2 uv;
 		public float scale;
+		public float intensity;
 		private BitArray8 _state;
 
 		public bool Painting { readonly get => _state[0]; set => _state[0] = value; }
 
-		public BrushMode Mode { readonly get => _state[1] ? BrushMode.Height : BrushMode.Color; set => _state[1] = value == BrushMode.Height; }
-
-		[BurstCompile]
-		public readonly float4 GetScaleBias() => new(xy: scale, zw: uv-(scale*0.5f));
-
-		public BrushMode SwitchMode()
-		{
-			_state[1] = !_state[1];
-			return Mode;
-		}
-
-		public enum BrushMode : byte
-		{
-			Color,
-			Height
-		}
+		public bool Color { readonly get => !_state[1]; set => _state[1] = !value; }
 	}
+}
+
+public static class BrushExtensions
+{
+	[BurstCompile]
+	public static float4 GetScaleBias(this BrushData brushData) => new(xy: brushData.scale, zw: brushData.uv - (brushData.scale * 0.5f));
 }
