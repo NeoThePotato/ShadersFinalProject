@@ -4,6 +4,9 @@ using Unity.Mathematics;
 using Unity.Burst;
 using static BrushController;
 
+/// <summary>
+/// Handles the rendering of <see cref="Brush"/> unto the <see cref="_colorTex"/> or <see cref="_heightTex"/>;
+/// </summary>
 public class BrushController : MonoBehaviour
 {
 	[SerializeField] private Texture _defaultTexture;
@@ -11,19 +14,15 @@ public class BrushController : MonoBehaviour
 	private BrushData _brush;
 	private CommandBuffer _cmd;
 
-	public bool IsColorMode => _brush.Color;
-
-	public bool IsPainting { get => _brush.Painting; private set => _brush.Painting = value; }
-
 	public ref BrushData Brush => ref _brush;
 
-	private RenderTexture Target => IsColorMode ? _colorTex : _heightTex;
+	private RenderTexture Target => _brush.Color ? _colorTex : _heightTex;
 
 	private void Awake()
 	{
 		_brush.texture = _defaultTexture;
-		_brush.scale = 0.1f;
-		_brush.intensity = 1f;
+		_brush.Scale = 0.1f;
+		_brush.Intensity = 1f;
 		_cmd = new();
 	}
 
@@ -37,24 +36,49 @@ public class BrushController : MonoBehaviour
 		Graphics.ExecuteCommandBuffer(_cmd);
 	}
 
+	/// <summary>
+	/// Contains data on how the brush should render unto the model.
+	/// </summary>
 	public struct BrushData
 	{
+		private const uint PAINT = 0, COLOR = 1;
 		public static readonly Vector4 INPUT_SCALE_BIAS = new(1f, 1f, 0f, 0f);
 
+		private float4 _uvScaleIntensity;
 		public Texture texture;
-		public float2 uv;
-		public float scale;
-		public float intensity;
 		private BitArray8 _state;
 
-		public bool Painting { readonly get => _state[0]; set => _state[0] = value; }
+		/// <summary>
+		/// UV coordinates to render <see cref="texture"/> on.
+		/// </summary>
+		public float2 UV { readonly get => _uvScaleIntensity.xy; set => _uvScaleIntensity.xy = value; }
 
-		public bool Color { readonly get => !_state[1]; set => _state[1] = !value; }
+		/// <summary>
+		/// How big should <see cref="texture"/> render.
+		/// </summary>
+		public float Scale { readonly get => _uvScaleIntensity.z; set => _uvScaleIntensity.z = value; }
+
+		/// <summary>
+		/// How strong should <see cref="texture"/>'s effect be.
+		/// </summary>
+		public float Intensity { readonly get => _uvScaleIntensity.w; set => _uvScaleIntensity.w = value; }
+
+		/// <summary>
+		/// Whether to paint or not.
+		/// </summary>
+		public bool Painting { readonly get => _state[PAINT]; set => _state[PAINT] = value; }
+
+		/// <summary>
+		/// Whether to paint color (<see langword="true"/>) or height (<see langword="false"/>).
+		/// </summary>
+		public bool Color { readonly get => !_state[COLOR]; set => _state[COLOR] = !value; }
 	}
 }
 
 public static class BrushExtensions
 {
+	/// <param name="source">Source <see cref="BrushData"/>.</param>
+	/// <returns>ScaleBiasTex that can be fed into <see cref="Blitter.BlitQuad"/>.</returns>
 	[BurstCompile]
-	public static float4 GetScaleBias(this BrushData brushData) => new(xy: brushData.scale, zw: brushData.uv - (brushData.scale * 0.5f));
+	public static float4 GetScaleBias(this BrushData source) => new(xy: source.Scale, zw: source.UV - (source.Scale * 0.5f));
 }

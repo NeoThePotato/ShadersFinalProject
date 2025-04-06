@@ -34,8 +34,8 @@ public class BrushInput : MonoBehaviour
 	{
 		if (Brush.Painting = PaintActive(out var hit, out var intensity))
 		{
-			Brush.uv = hit.textureCoord;
-			Brush.intensity = math.abs(Brush.intensity) * intensity;
+			Brush.UV = hit.textureCoord;
+			Brush.Intensity = math.abs(Brush.Intensity) * intensity;
 		}
 
 		static bool PaintActive(out RaycastHit hit, out float intensity)
