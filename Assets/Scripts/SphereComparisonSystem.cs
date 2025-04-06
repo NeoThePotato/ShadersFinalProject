@@ -26,23 +26,29 @@ public class SphereComparisonSystem : MonoBehaviour
     {
         Comparison();
     }
+    
+    private void Awake()
+    {
+        _kernel = comparisonShader.FindKernel("CSMain");
+    }
 
     public void Comparison()
     {
         _resolution = playerColor.width;
 
         int totalPixels = _resolution * _resolution;
+        
+        if (_resultBuffer != null)
+            _resultBuffer.Dispose();
         _resultBuffer = new ComputeBuffer(totalPixels, sizeof(float));
 
-        _kernel = comparisonShader.FindKernel("CSMain");
+        comparisonShader.SetTexture(_kernel, "PlayerColor", playerColor);
+        comparisonShader.SetTexture(_kernel, "TargetColor", targetColor);
+        comparisonShader.SetTexture(_kernel, "PlayerHeight", playerHeight);
+        comparisonShader.SetTexture(_kernel, "TargetHeight", targetHeight);
 
-        comparisonShader.SetTexture(_kernel, "_PlayerColorTex", playerColor);
-        comparisonShader.SetTexture(_kernel, "_TargetColorTex", targetColor);
-        comparisonShader.SetTexture(_kernel, "_PlayerHeightTex", playerHeight);
-        comparisonShader.SetTexture(_kernel, "_TargetHeightTex", targetHeight);
-
-        comparisonShader.SetFloat("_DifficultyMultiplier", difficultyMultiplier);
-        comparisonShader.SetInt("_Resolution", _resolution);
+        comparisonShader.SetFloat("DifficultyScale", difficultyMultiplier);
+        comparisonShader.SetInt("TextureResolution", _resolution);
         comparisonShader.SetBuffer(_kernel, "ResultBuffer", _resultBuffer);
     }
 
@@ -54,7 +60,8 @@ public class SphereComparisonSystem : MonoBehaviour
             return;
         }
 
-        comparisonShader.Dispatch(_kernel, Mathf.CeilToInt(_resolution / 8.0f), Mathf.CeilToInt(_resolution / 8.0f), 1);
+        int threadGroups = Mathf.CeilToInt(_resolution / 8.0f);
+        comparisonShader.Dispatch(_kernel, threadGroups, threadGroups, 1);
 
         float[] results = new float[_resolution * _resolution];
         _resultBuffer.GetData(results);
@@ -83,23 +90,23 @@ public class SphereComparisonSystem : MonoBehaviour
     public void SetDifficultyMultiplier(float value)
     {
         difficultyMultiplier = value;
-        comparisonShader.SetFloat("_DifficultyMultiplier", difficultyMultiplier);
+        comparisonShader.SetFloat("DifficultyScale", difficultyMultiplier);
     }
     
     public void SetTargetTextures(Texture color, Texture height)
     {
         targetColor = color;
         targetHeight = height;
-        comparisonShader.SetTexture(_kernel, "_TargetColorTex", targetColor);
-        comparisonShader.SetTexture(_kernel, "_TargetHeightTex", targetHeight);
+        comparisonShader.SetTexture(_kernel, "TargetColor", targetColor);
+        comparisonShader.SetTexture(_kernel, "TargetHeight", targetHeight);
     }
 
     public void SetPlayerTextures(RenderTexture color, RenderTexture height)
     {
         playerColor = color;
         playerHeight = height;
-        comparisonShader.SetTexture(_kernel, "_PlayerColorTex", playerColor);
-        comparisonShader.SetTexture(_kernel, "_PlayerHeightTex", playerHeight);
+        comparisonShader.SetTexture(_kernel, "PlayerColor", playerColor);
+        comparisonShader.SetTexture(_kernel, "PlayerHeight", playerHeight);
     }
 
     public int GetScore() => computedScore;
