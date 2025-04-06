@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 4c95c5972da126945bfda91fd8ae3b63
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - comparisonShader: {fileID: 7200000, guid: d95246a5f6aa58f448a444217c3cb54d, type: 3}
+  - playerColor: {instanceID: 0}
+  - playerHeight: {instanceID: 0}
+  - targetColor: {instanceID: 0}
+  - targetHeight: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
