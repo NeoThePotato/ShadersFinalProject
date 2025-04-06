@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HairComparisonSystem : MonoBehaviour
+public class SphereComparisonSystem : MonoBehaviour
 {
     [Header("Compute Shader")]
     [SerializeField] private ComputeShader comparisonShader;
