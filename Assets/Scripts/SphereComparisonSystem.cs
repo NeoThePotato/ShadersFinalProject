@@ -67,7 +67,7 @@ public class SphereComparisonSystem : MonoBehaviour
         float similarity = 1f - (totalDifference / maxDifference);
 
         computedScore = Mathf.RoundToInt(similarity * 100f);
-        GameManager.Instance.SendMessage("SetAccuracyScore", computedScore);
+        GameManager.Instance.SendMessage("EvaluateAccuracy", computedScore);
     }
     
     public void CompareNow() // Call this CompareNow() method to trigger the comparison!
