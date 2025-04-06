@@ -30,11 +30,6 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
-    {
-        throw new NotImplementedException();
-    }
-
     public void SelectColor(Color color)
     {
         currentlySelectedColor = color;
