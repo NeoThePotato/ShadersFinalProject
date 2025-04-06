@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _HeightSensitivity: 3
+    - _HeightSensitivity: 0.2
     - _QueueControl: 0
     m_Colors: []
   m_BuildTextureStacks: []
