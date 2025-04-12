@@ -122,6 +122,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &242006911 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4990431378822779155, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+  m_PrefabInstance: {fileID: 919693766}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &442338667
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +314,9 @@ MonoBehaviour:
   _brushController: {fileID: 710515212}
   _scrollSensitivity: 0.0002
   _minSize: 0.02
-  _maxSize: 1
+  _maxSize: 0.2
+  _intensitySlider: {fileID: 1460887153}
+  _scaleSlider: {fileID: 242006911}
 --- !u!1 &919305756
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +670,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2654214145242695917, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2716494955140968990, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -705,6 +722,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3085365414066959141, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3641381704677025304, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -751,6 +772,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3988485546018807259, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4319186387723533777, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4605574716719869942, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
@@ -829,6 +854,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7018872147441649215, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7317312473233474434, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -851,6 +880,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7317312473233474434, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029014110594809335, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8091197604327491787, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8171099130452649793, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
@@ -930,6 +967,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+--- !u!114 &1460887153 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2294949887342799613, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+  m_PrefabInstance: {fileID: 919693766}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1484020902
 GameObject:
   m_ObjectHideFlags: 0
