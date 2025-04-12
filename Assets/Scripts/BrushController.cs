@@ -12,7 +12,8 @@ public class BrushController : MonoBehaviour
 	private static readonly int
 		BLIT_TEXTURE = Shader.PropertyToID("_BlitTexture"),
 		BLIT_SCALE_BIAS = Shader.PropertyToID("_BlitScaleBiasRt"),
-		BLIT_INTENSITY = Shader.PropertyToID("_Intensity");
+		BLIT_INTENSITY = Shader.PropertyToID("_Intensity"),
+		BLIT_COLOR = Shader.PropertyToID("_Color");
 
 	[SerializeField] private Material _brushMaterial;
 	[SerializeField] private RenderTexture _colorTex, _heightTex;
@@ -21,7 +22,7 @@ public class BrushController : MonoBehaviour
 
 	public ref BrushData Brush => ref _brush;
 
-	private RenderTexture Target => _brush.Color ? _colorTex : _heightTex;
+	private RenderTexture Target => _brush.ColorMode ? _colorTex : _heightTex;
 
 	private void Awake()
 	{
@@ -34,7 +35,7 @@ public class BrushController : MonoBehaviour
 
 	private void Update()
     {
-		if (!_brush.Painting)
+		if (!_brush.PaintingMode)
 			return;
 		_cmd.Clear();
 		_cmd.SetRenderTarget(Target);
@@ -47,6 +48,7 @@ public class BrushController : MonoBehaviour
 		_brushMaterial.SetTexture(BLIT_TEXTURE, brushData.texture);
 		_brushMaterial.SetVector(BLIT_SCALE_BIAS, brushData.GetScaleBias());
 		_brushMaterial.SetFloat(BLIT_INTENSITY, brushData.Intensity);
+		_brushMaterial.SetColor(BLIT_COLOR, brushData.Color);
 		cmd.Blit(null, Target, _brushMaterial);
 	}
 
@@ -59,8 +61,14 @@ public class BrushController : MonoBehaviour
 		public static readonly Vector4 INPUT_SCALE_BIAS = new(1f, 1f, 0f, 0f);
 
 		private float4 _uvScaleIntensity;
+		private Color _color;
 		public Texture texture;
 		private BitArray8 _state;
+
+		/// <summary>
+		/// <see cref="UnityEngine.Color"/> to tint <see cref="texture"/> in. Only applicable when in <see cref="ColorMode"/>.
+		/// </summary>
+		public Color Color { readonly get => ColorMode ? _color : Color.white; set => _color = value; }
 
 		/// <summary>
 		/// UV coordinates to render <see cref="texture"/> on.
@@ -80,12 +88,12 @@ public class BrushController : MonoBehaviour
 		/// <summary>
 		/// Whether to paint or not.
 		/// </summary>
-		public bool Painting { readonly get => _state[PAINT]; set => _state[PAINT] = value; }
+		public bool PaintingMode { readonly get => _state[PAINT]; set => _state[PAINT] = value; }
 
 		/// <summary>
 		/// Whether to paint color (<see langword="true"/>) or height (<see langword="false"/>).
 		/// </summary>
-		public bool Color { readonly get => !_state[COLOR]; set => _state[COLOR] = !value; }
+		public bool ColorMode { readonly get => !_state[COLOR]; set => _state[COLOR] = !value; }
 	}
 }
 
