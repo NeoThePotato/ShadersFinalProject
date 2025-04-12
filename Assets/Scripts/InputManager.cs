@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
@@ -8,8 +9,9 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Texture2D paintBrushCursorSprite, vertexBrushCursorSprite;
     [SerializeField] private Vector2 cursorHotSpot = new Vector2(50, 50);
     [SerializeField] private Image currentColorImage;
-    
-    private void Awake()
+    [SerializeField] private RotateCamera _rotateCamera;
+
+	private void Awake()
     {
         Instance = this;
     }
@@ -31,4 +33,9 @@ public class InputManager : MonoBehaviour
         currentColorImage.gameObject.SetActive(false);
         Cursor.SetCursor(vertexBrushCursorSprite, cursorHotSpot, CursorMode.Auto);
     }
+
+	private void Update()
+	{
+        _rotateCamera.enabled = Mouse.current.middleButton.IsActuated();
+	}
 }
