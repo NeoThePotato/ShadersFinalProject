@@ -123,8 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90b3eb29365b47ac9af89da54c591ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
-  _defaultTexture: {fileID: 0}
+  _defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  _defaultTexture: {fileID: 2800000, guid: d2aaf52022c8f0f4cb05f8118568b858, type: 3}
 --- !u!114 &5646060033868979282
 MonoBehaviour:
   m_ObjectHideFlags: 0
