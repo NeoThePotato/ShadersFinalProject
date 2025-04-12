@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ColorChangingButton : MonoBehaviour
 {
     private Button myButton;
-    private Color buttonColor;
+    public Color Color { get; private set; }
 
     private void Awake()
     {
         myButton = GetComponent<Button>();
-        buttonColor = myButton.image.color;
+        Color = myButton.image.color;
     }
 
     public void OnPress()
     {
-        UIManager.Instance.SelectColor(buttonColor);
+        UIManager.Instance.SelectColor(Color);
     }
 }

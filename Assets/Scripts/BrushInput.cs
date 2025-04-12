@@ -24,6 +24,7 @@ public class BrushInput : MonoBehaviour
 			return;
 		UIManager.Instance.OnPaintBrushSelected += OnPaintBrushSelected;
 		UIManager.Instance.OnVertexBrushSelected += OnVertexBrushSelected;
+		UIManager.Instance.OnTextureChanged += OnTextureChanged;
 	}
 
 	private void OnDisable()
@@ -32,6 +33,7 @@ public class BrushInput : MonoBehaviour
 			return;
 		UIManager.Instance.OnPaintBrushSelected -= OnPaintBrushSelected;
 		UIManager.Instance.OnVertexBrushSelected -= OnVertexBrushSelected;
+		UIManager.Instance.OnTextureChanged -= OnTextureChanged;
 	}
 
 	private void Update()
@@ -65,13 +67,9 @@ public class BrushInput : MonoBehaviour
 		}
 	}
 
-	private void OnVertexBrushSelected()
-	{
-		Brush.Color = false;
-	}
+	private void OnVertexBrushSelected() => Brush.Color = false;
 
-	private void OnPaintBrushSelected(Color color)
-	{
-		Brush.Color = true;
-	}
+	private void OnPaintBrushSelected(Color color) => Brush.Color = true;
+
+	private void OnTextureChanged(Texture texture) => Brush.texture = texture;
 }
