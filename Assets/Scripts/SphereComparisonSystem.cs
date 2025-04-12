@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SphereComparisonSystem : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class SphereComparisonSystem : MonoBehaviour
 
     [Header("Output")]
     [SerializeField] private int computedScore;
+    
+    [Header("UI")]
+    [SerializeField] private Slider accuracyBar;
 
     private ComputeBuffer _resultBuffer;
     private int _kernel;
@@ -74,6 +78,12 @@ public class SphereComparisonSystem : MonoBehaviour
         float similarity = 1f - (totalDifference / maxDifference);
 
         computedScore = Mathf.RoundToInt(similarity * 100f);
+        
+        if (accuracyBar != null)
+        {
+            accuracyBar.value = computedScore;
+        }
+
         GameManager.Instance.SendMessage("EvaluateAccuracy", computedScore);
     }
     
