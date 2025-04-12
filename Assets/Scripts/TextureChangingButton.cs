@@ -1,19 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorChangingButton : MonoBehaviour
+public class TextureChangingButton : MonoBehaviour
 {
     private Button myButton;
-    public Color Color { get; private set; }
+	public Texture Texture { get; private set; }
 
     private void Awake()
     {
         myButton = GetComponent<Button>();
-        Color = myButton.image.color;
+        Texture = myButton.image.mainTexture;
     }
 
     public void OnPress()
     {
-        UIManager.Instance.SelectColor(Color);
+        UIManager.Instance.SelectTexture(Texture);
     }
 }

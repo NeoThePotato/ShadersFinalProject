@@ -18,12 +18,20 @@ public class BrushInput : MonoBehaviour
 
 	private static DeltaControl ScaleInput => Mouse.current.scroll;
 
+	private void Start()
+	{
+		var ui = UIManager.Instance;
+		Brush.Color = ui.CurrentlySelectedColor;
+		Brush.texture = ui.CurrentlySelectedTexture;
+	}
+
 	private void OnEnable()
 	{
 		if (!UIManager.Instance)
 			return;
 		UIManager.Instance.OnPaintBrushSelected += OnPaintBrushSelected;
 		UIManager.Instance.OnVertexBrushSelected += OnVertexBrushSelected;
+		UIManager.Instance.OnTextureChanged += OnTextureChanged;
 	}
 
 	private void OnDisable()
@@ -32,11 +40,12 @@ public class BrushInput : MonoBehaviour
 			return;
 		UIManager.Instance.OnPaintBrushSelected -= OnPaintBrushSelected;
 		UIManager.Instance.OnVertexBrushSelected -= OnVertexBrushSelected;
+		UIManager.Instance.OnTextureChanged -= OnTextureChanged;
 	}
 
 	private void Update()
 	{
-		if (Brush.Painting = PaintActive(out var hit, out var intensity))
+		if (Brush.PaintingMode = PaintActive(out var hit, out var intensity))
 		{
 			Brush.UV = hit.textureCoord;
 			Brush.Intensity = math.abs(Brush.Intensity) * intensity;
@@ -65,13 +74,13 @@ public class BrushInput : MonoBehaviour
 		}
 	}
 
-	private void OnVertexBrushSelected()
-	{
-		Brush.Color = false;
-	}
+	private void OnVertexBrushSelected() => Brush.ColorMode = false;
 
 	private void OnPaintBrushSelected(Color color)
 	{
-		Brush.Color = true;
+		Brush.ColorMode = true;
+		Brush.Color = color;
 	}
+
+	private void OnTextureChanged(Texture texture) => Brush.texture = texture;
 }
