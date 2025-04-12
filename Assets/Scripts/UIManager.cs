@@ -5,45 +5,27 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [SerializeField] private Color _defaultColor;
-    [SerializeField] private Texture _defaultTexture;
-
-    /// <summary>
-    /// You can read this value at any time to know the currently selected brush color
-    /// </summary>
-    public Color CurrentlySelectedColor { get; private set; }
-
-    public Texture CurrentlySelectedTexture { get; private set; }
-    /// <summary>
-    /// Subscribe to this in order to select the coloring brush and change the brush's color
-    /// </summary>
-    public event UnityAction<Color> OnPaintBrushSelected;
-    /// <summary>
-    /// Subscribe to this in order to select the vertex brush
-    /// </summary>
+	#region EVENTS
+	public event UnityAction<Color> OnPaintBrushSelected;
     public event UnityAction OnVertexBrushSelected;
-
     public event UnityAction<Texture> OnTextureChanged;
+    public event UnityAction<float> OnIntensityChanged;
+    public event UnityAction<float> OnSizeChanged;
+    #endregion
 
-    private void Awake()
-    {
-        Instance = this;
-        CurrentlySelectedColor = GetComponentInChildren<ColorChangingButton>().Color;
-		CurrentlySelectedTexture = GetComponentInChildren<TextureChangingButton>().Texture;
-    }
+    public Color DefaultColor => GetComponentInChildren<ColorChangingButton>().Color;
 
-    public void SelectColor(Color color)
-    {
-        OnPaintBrushSelected?.Invoke(CurrentlySelectedColor = color);
-	}
+    public Texture DefaultTexture => GetComponentInChildren<TextureChangingButton>().Texture;
 
-	public void SelectTexture(Texture texture)
-	{
-        OnTextureChanged?.Invoke(CurrentlySelectedTexture = texture);
-	}
+	private void Awake() => Instance = this;
 
-	public void SelectVertexBrush()
-    {
-        OnVertexBrushSelected?.Invoke();
-    }
+	public void SelectColor(Color color) => OnPaintBrushSelected?.Invoke(color);
+
+	public void SelectTexture(Texture texture) => OnTextureChanged?.Invoke(texture);
+
+	public void SelectVertexBrush() => OnVertexBrushSelected?.Invoke();
+
+	public void ChangeSize(float value) => OnSizeChanged?.Invoke(value);
+
+	public void ChangeIntensity(float value) => OnIntensityChanged?.Invoke(value);
 }

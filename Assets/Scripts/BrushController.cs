@@ -38,7 +38,6 @@ public class BrushController : MonoBehaviour
 		if (!_brush.PaintingMode)
 			return;
 		_cmd.Clear();
-		_cmd.SetRenderTarget(Target);
 		BlitBrush(_cmd, _brush);
 		Graphics.ExecuteCommandBuffer(_cmd);
 	}
@@ -60,8 +59,10 @@ public class BrushController : MonoBehaviour
 		private const uint PAINT = 0, COLOR = 1;
 		public static readonly Vector4 INPUT_SCALE_BIAS = new(1f, 1f, 0f, 0f);
 
-		private float4 _uvScaleIntensity;
 		private Color _color;
+		private float2 _uv;
+		private float _scale;
+		private float _intensity;
 		public Texture texture;
 		private BitArray8 _state;
 
@@ -73,17 +74,17 @@ public class BrushController : MonoBehaviour
 		/// <summary>
 		/// UV coordinates to render <see cref="texture"/> on.
 		/// </summary>
-		public float2 UV { readonly get => _uvScaleIntensity.xy; set => _uvScaleIntensity.xy = value; }
+		public float2 UV { readonly get => _uv; set => _uv = value; }
 
 		/// <summary>
 		/// How big should <see cref="texture"/> render.
 		/// </summary>
-		public float Scale { readonly get => _uvScaleIntensity.z; set => _uvScaleIntensity.z = value; }
+		public float Scale { readonly get => _scale; set => _scale = value; }
 
 		/// <summary>
 		/// How strong should <see cref="texture"/>'s effect be.
 		/// </summary>
-		public float Intensity { readonly get => _uvScaleIntensity.w; set => _uvScaleIntensity.w = value; }
+		public float Intensity { readonly get => _intensity; set => _intensity = value; }
 
 		/// <summary>
 		/// Whether to paint or not.
