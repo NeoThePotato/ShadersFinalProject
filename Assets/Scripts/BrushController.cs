@@ -26,6 +26,8 @@ public class BrushController : MonoBehaviour
 		_cmd = new();
 	}
 
+	private void OnDestroy() => _cmd.Dispose();
+
 	void LateUpdate()
     {
 		if (!_brush.Painting)
