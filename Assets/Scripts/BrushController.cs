@@ -9,7 +9,12 @@ using static BrushController;
 /// </summary>
 public class BrushController : MonoBehaviour
 {
-	[SerializeField] private Texture _defaultTexture;
+	private static readonly int
+		BLIT_TEXTURE = Shader.PropertyToID("_BlitTexture"),
+		BLIT_SCALE_BIAS = Shader.PropertyToID("_BlitScaleBiasRt"),
+		BLIT_INTENSITY = Shader.PropertyToID("_Intensity");
+
+	[SerializeField] private Material _brushMaterial;
 	[SerializeField] private RenderTexture _colorTex, _heightTex;
 	private BrushData _brush;
 	private CommandBuffer _cmd;
@@ -20,7 +25,6 @@ public class BrushController : MonoBehaviour
 
 	private void Awake()
 	{
-		_brush.texture = _defaultTexture;
 		_brush.Scale = 0.1f;
 		_brush.Intensity = 1f;
 		_cmd = new();
@@ -28,14 +32,22 @@ public class BrushController : MonoBehaviour
 
 	private void OnDestroy() => _cmd.Dispose();
 
-	void LateUpdate()
+	private void Update()
     {
 		if (!_brush.Painting)
 			return;
 		_cmd.Clear();
 		_cmd.SetRenderTarget(Target);
-		Blitter.BlitQuad(_cmd, _brush.texture, BrushData.INPUT_SCALE_BIAS, _brush.GetScaleBias(), 0, true);
+		BlitBrush(_cmd, _brush);
 		Graphics.ExecuteCommandBuffer(_cmd);
+	}
+
+	private void BlitBrush(CommandBuffer cmd, in BrushData brushData)
+	{
+		_brushMaterial.SetTexture(BLIT_TEXTURE, brushData.texture);
+		_brushMaterial.SetVector(BLIT_SCALE_BIAS, brushData.GetScaleBias());
+		_brushMaterial.SetFloat(BLIT_INTENSITY, brushData.Intensity);
+		cmd.Blit(null, Target, _brushMaterial);
 	}
 
 	/// <summary>
@@ -83,4 +95,8 @@ public static class BrushExtensions
 	/// <returns>ScaleBiasTex that can be fed into <see cref="Blitter.BlitQuad"/>.</returns>
 	[BurstCompile]
 	public static float4 GetScaleBias(this BrushData source) => new(xy: source.Scale, zw: source.UV - (source.Scale * 0.5f));
+
+	/// <param name="source">Source <see cref="BrushData"/>.</param>
+	/// <returns>Transformation matrix that can be fed into <see cref="CommandBuffer.DrawProcedural"/>.</returns>
+	public static Matrix4x4 GetMatrix(this BrushData source) => Matrix4x4.TRS(new float3(xy: source.UV, z: 0), Quaternion.identity, new(source.Scale, source.Scale, source.Scale));
 }
