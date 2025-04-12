@@ -38,7 +38,6 @@ public class BrushController : MonoBehaviour
 		if (!_brush.PaintingMode)
 			return;
 		_cmd.Clear();
-		_cmd.SetRenderTarget(Target);
 		BlitBrush(_cmd, _brush);
 		Graphics.ExecuteCommandBuffer(_cmd);
 	}
