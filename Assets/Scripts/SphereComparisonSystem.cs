@@ -21,6 +21,7 @@ public class SphereComparisonSystem : MonoBehaviour
     
     [Header("UI")]
     [SerializeField] private Slider accuracyBar;
+    [SerializeField] private TMPro.TMP_Text scoreText;
 
     private ComputeBuffer _resultBuffer;
     private int _kernel;
@@ -85,6 +86,20 @@ public class SphereComparisonSystem : MonoBehaviour
         if (accuracyBar != null)
         {
             accuracyBar.value = computedScore;
+        }
+        
+        if (scoreText != null)
+        {
+            string colorHex = "#000000";
+
+            if (computedScore < 20)
+                colorHex = "#FF4D4D";
+            else if (computedScore < 40)
+                colorHex = "#FFD93D";
+            else
+                colorHex = "#4CAF50";
+            
+            scoreText.text = $"<color={colorHex}>{computedScore}%</color>";
         }
 
         GameManager.Instance.SendMessage("EvaluateAccuracy", computedScore);
