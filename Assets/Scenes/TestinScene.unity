@@ -1123,6 +1123,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI + Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1918173897}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextFlag
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SphereComparisonSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457706778210277983, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1699110194084485429, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1543,6 +1571,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8992957841973576787, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+      propertyPath: sphereComparisonSystem
+      value: 
+      objectReference: {fileID: 1918173897}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1567,6 +1599,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &919693769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2770635414221407348, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
+  m_PrefabInstance: {fileID: 919693766}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1460887153 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2294949887342799613, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
@@ -2082,10 +2119,10 @@ MonoBehaviour:
   playerColor: {fileID: 8400000, guid: f84e5820f83a39c43b7ae0dc97425aa7, type: 2}
   playerHeight: {fileID: 8400000, guid: 0e3318a86a0f6994ba2b0d2ad86d7909, type: 2}
   difficultyMultiplier: 1
-  computedScore: 0
   referenceMat: {fileID: 2100000, guid: abe5847a1f372344a9aec3844f8bcd86, type: 2}
   accuracyBar: {fileID: 919693768}
   scoreText: {fileID: 1900683510}
+  successWindow: {fileID: 919693769}
   references:
   - color: {fileID: 2800000, guid: 6d9dfb4e75392624585f2dfdbcee5168, type: 3}
     height: {fileID: 2800000, guid: f4640416192546a4dbe2e01997d48e8c, type: 3}

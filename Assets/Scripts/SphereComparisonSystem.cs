@@ -20,6 +20,7 @@ public class SphereComparisonSystem : MonoBehaviour
 	[SerializeField] private Material referenceMat;
 	[SerializeField] private Slider accuracyBar;
     [SerializeField] private TMPro.TMP_Text scoreText;
+    [SerializeField] private UnityEngine.GameObject successWindow;
     
     [Header("Target Flags")]
     [SerializeField] private Reference[] references;
@@ -113,8 +114,8 @@ public class SphereComparisonSystem : MonoBehaviour
         
         if (computedScore >= 40) // Advance to next flag when the score is above 40%
         {
-            NextFlag();
-        }
+            successWindow.SetActive(true);
+		}
     }
     
     public void CompareNow() // Call this CompareNow() method to trigger the comparison!
@@ -159,7 +160,7 @@ public class SphereComparisonSystem : MonoBehaviour
         Graphics.SetRenderTarget(null);
     }
 
-    private void NextFlag()
+    public void NextFlag()
     {
         SetReferenceTextures(references.GetRandom());
         ClearRenderTexture(playerColor);
