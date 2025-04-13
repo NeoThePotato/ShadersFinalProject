@@ -25,11 +25,6 @@ public class SphereComparisonSystem : MonoBehaviour
     private ComputeBuffer _resultBuffer;
     private int _kernel;
     private int _resolution;
-
-    private void Start()
-    {
-        Comparison();
-    }
     
     private void Awake()
     {
@@ -38,6 +33,14 @@ public class SphereComparisonSystem : MonoBehaviour
 
     public void Comparison()
     {
+        if (playerColor == null || playerHeight == null)
+        {
+            Debug.LogError("Nothing to compare!");
+            return;
+        }
+        
+        // _kernel = comparisonShader.FindKernel("CSMain");
+        
         _resolution = playerColor.width;
 
         int totalPixels = _resolution * _resolution;
@@ -89,6 +92,7 @@ public class SphereComparisonSystem : MonoBehaviour
     
     public void CompareNow() // Call this CompareNow() method to trigger the comparison!
     {
+        Comparison();
         CompareTextures();
     }
 

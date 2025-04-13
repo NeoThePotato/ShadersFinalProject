@@ -22,19 +22,19 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     if (id.x >= TextureResolution || id.y >= TextureResolution)
         return;
 
-    float2 uv = id.xy / (float)TextureResolution;
+    int2 pixelCoord = int2(id.xy);
 
-    float4 colorA = PlayerColor.SampleLevel(samplerState, uv, 0);
-    float4 colorB = TargetColor.SampleLevel(samplerState, uv, 0);
+    float4 colorA = PlayerColor.Load(int3(pixelCoord, 0));
+    float4 colorB = TargetColor.Load(int3(pixelCoord, 0));
     float colorDiff = length(colorA.rgb - colorB.rgb);
 
-    float heightA = PlayerHeight.SampleLevel(samplerState, uv, 0).r;
-    float heightB = TargetHeight.SampleLevel(samplerState, uv, 0).r;
+    float heightA = PlayerHeight.Load(int3(pixelCoord, 0)).r;
+    float heightB = TargetHeight.Load(int3(pixelCoord, 0)).r;
     float heightDiff = abs(heightA - heightB);
 
     // Combine color + height differences
     float totalDiff = (colorDiff + heightDiff) * DifficultyScale;
 
-    uint index = id.y * TextureResolution + id.x;
+    uint index = id.y * (uint)TextureResolution + id.x;
     ResultBuffer[index] = totalDiff;
 }
