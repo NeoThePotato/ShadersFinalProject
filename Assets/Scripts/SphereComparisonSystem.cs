@@ -148,6 +148,14 @@ public class SphereComparisonSystem : MonoBehaviour
         comparisonShader.SetTexture(_kernel, "PlayerColor", playerColor);
         comparisonShader.SetTexture(_kernel, "PlayerHeight", playerHeight);
     }
+    
+    private void ClearRenderTexture(RenderTexture rt)
+    {
+        if (rt == null) return;
+        Graphics.SetRenderTarget(rt);
+        GL.Clear(true, true, Color.clear);
+        Graphics.SetRenderTarget(null);
+    }
 
     private void NextFlag()
     {
@@ -177,6 +185,9 @@ public class SphereComparisonSystem : MonoBehaviour
             {
                 Debug.LogWarning("No matching textures for the next flag!");
             }
+            
+            ClearRenderTexture(playerColor);
+            ClearRenderTexture(playerHeight);
         }
         else
         {
