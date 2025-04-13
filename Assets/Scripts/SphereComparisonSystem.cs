@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Extensions;
@@ -11,7 +12,7 @@ public class SphereComparisonSystem : MonoBehaviour
     [Header("Compute Shader")]
     [SerializeField] private ComputeShader comparisonShader;
 
-    [Header("Textures")]
+    [Header("Current Textures")]
     [SerializeField] private RenderTexture playerColor;
     [SerializeField] private RenderTexture playerHeight;
 
@@ -24,23 +25,27 @@ public class SphereComparisonSystem : MonoBehaviour
 	[SerializeField] private Slider accuracyBar;
     [SerializeField] private TMPro.TMP_Text scoreText;
     [SerializeField] private UnityEngine.GameObject successWindow;
+    [SerializeField] private UnityEngine.GameObject tutorialText;
     
     [Header("Target Flags")]
     [SerializeField] private Reference[] references;
 
-    private Reference currentReference;
+    private Reference _currentReference;
 	private ComputeBuffer _resultBuffer;
     private int _kernel;
     private int _resolution;
-	private int computedScore;
+	private int _computedScore;
 
-	private Texture ReferenceColor => currentReference.color;
-	private Texture ReferenceHeight => currentReference.height;
+	private Texture ReferenceColor => _currentReference.color;
+	private Texture ReferenceHeight => _currentReference.height;
 
 	private void Awake()
     {
         _kernel = comparisonShader.FindKernel("CSMain");
         NextFlag();
+        
+        if (tutorialText != null)
+	        StartCoroutine(HideTutorial(15f));
 	}
 
 	private void OnDestroy()
@@ -49,7 +54,7 @@ public class SphereComparisonSystem : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Uses <see cref="comparisonShader"/> to compare the player's textures with <see cref="currentReference"/>.
+	/// Uses <see cref="comparisonShader"/> to compare the player's textures with <see cref="_currentReference"/>.
 	/// </summary>
 	public void Compare()
     {
@@ -63,8 +68,6 @@ public class SphereComparisonSystem : MonoBehaviour
 				Debug.LogError("Nothing to compare!");
 				return;
 			}
-
-			// _kernel = comparisonShader.FindKernel("CSMain");
 
 			_resolution = playerColor.width;
 
@@ -105,30 +108,30 @@ public class SphereComparisonSystem : MonoBehaviour
 			float maxDifference = _resolution * _resolution;
 			float similarity = 1f - (totalDifference / maxDifference);
 
-			computedScore = Mathf.RoundToInt(similarity * 100f);
+			_computedScore = Mathf.RoundToInt(similarity * 100f);
 
 			if (accuracyBar != null)
 			{
-				accuracyBar.value = computedScore;
+				accuracyBar.value = _computedScore;
 			}
 
 			if (scoreText != null)
 			{
-				string colorHex = "#000000";
+				string colorHex;
 
-				if (computedScore < 20)
+				if (_computedScore < 20)
 					colorHex = "#FF4D4D";
-				else if (computedScore < 40)
+				else if (_computedScore < 40)
 					colorHex = "#FFD93D";
 				else
 					colorHex = "#4CAF50";
 
-				scoreText.text = $"<color={colorHex}>{computedScore}%</color>";
+				scoreText.text = $"<color={colorHex}>{_computedScore}%</color>";
 			}
 
-			GameManager.Instance.SendMessage("EvaluateAccuracy", computedScore);
+			GameManager.Instance.SendMessage("EvaluateAccuracy", _computedScore);
 
-			if (computedScore >= 40) // Advance to next flag when the score is above 40%
+			if (_computedScore >= 40) // Advance to next flag when the score is above 40%
 			{
 				successWindow.SetActive(true);
 			}
@@ -143,7 +146,7 @@ public class SphereComparisonSystem : MonoBehaviour
     
     private void SetReferenceTextures(Reference reference)
     {
-        currentReference = reference;
+        _currentReference = reference;
 		referenceMat.SetTexture("_Color", ReferenceColor);
 		referenceMat.SetTexture("_Height", ReferenceHeight);
 		comparisonShader.SetTexture(_kernel, "TargetColor", ReferenceColor);
@@ -168,7 +171,7 @@ public class SphereComparisonSystem : MonoBehaviour
         ClearRenderTexture(playerHeight);
     }
 
-    public int GetScore() => computedScore;
+    public int GetScore() => _computedScore;
 
     [Serializable]
     private struct Reference : IEquatable<Reference>
@@ -178,4 +181,10 @@ public class SphereComparisonSystem : MonoBehaviour
 
 		public readonly bool Equals(Reference other) => color.Equals(other.color) && height.Equals(other.height);
 	}
+    
+    private IEnumerator HideTutorial(float delay)
+    {
+	    yield return new WaitForSeconds(delay);
+	    tutorialText.SetActive(false);
+    }
 }
