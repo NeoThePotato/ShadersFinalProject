@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Notifies <see cref="UIManager"/> when the user changes the brush texture.
+/// </summary>
 public class TextureChangingButton : MonoBehaviour
 {
     private Button myButton;

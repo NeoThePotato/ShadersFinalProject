@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Notifies <see cref="UIManager"/> when the user changes the brush color.
+/// </summary>
 public class ColorChangingButton : MonoBehaviour
 {
     private Button myButton;

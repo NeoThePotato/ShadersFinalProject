@@ -207,7 +207,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1918173897}
         m_TargetAssemblyTypeName: SphereComparisonSystem, Assembly-CSharp
-        m_MethodName: CompareNow
+        m_MethodName: Compare
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
