@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glass
+  m_Name: Sculpt
   m_Shader: {fileID: -6465566751694194690, guid: 588bd87d9b71e2a4f9b918dff6e30bd1, type: 3}
   m_Parent: {fileID: -876546973899608171, guid: 588bd87d9b71e2a4f9b918dff6e30bd1, type: 3}
   m_ModifiedSerializedProperties: 2
