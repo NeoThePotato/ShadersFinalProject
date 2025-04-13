@@ -22,6 +22,12 @@ public class SphereComparisonSystem : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Slider accuracyBar;
     [SerializeField] private TMPro.TMP_Text scoreText;
+    
+    [Header("Target Flags")]
+    [SerializeField] private Texture[] targetColorTextures;
+    [SerializeField] private Texture[] targetHeightTextures;
+    [SerializeField] private GameObject[] targetRefFlags;
+    private int currentFlagIndex = 0;
 
     private ComputeBuffer _resultBuffer;
     private int _kernel;
@@ -103,6 +109,11 @@ public class SphereComparisonSystem : MonoBehaviour
         }
 
         GameManager.Instance.SendMessage("EvaluateAccuracy", computedScore);
+        
+        if (computedScore >= 40) // Advance to next flag when the score is above 40%
+        {
+            NextFlag();
+        }
     }
     
     public void CompareNow() // Call this CompareNow() method to trigger the comparison!
@@ -136,6 +147,41 @@ public class SphereComparisonSystem : MonoBehaviour
         playerHeight = height;
         comparisonShader.SetTexture(_kernel, "PlayerColor", playerColor);
         comparisonShader.SetTexture(_kernel, "PlayerHeight", playerHeight);
+    }
+
+    private void NextFlag()
+    {
+        if (targetRefFlags == null || targetRefFlags.Length == 0)
+            return;
+
+        if (currentFlagIndex < targetRefFlags.Length)
+            targetRefFlags[currentFlagIndex].SetActive(false);
+
+        currentFlagIndex++;
+
+        if (currentFlagIndex < targetRefFlags.Length)
+        {
+            targetRefFlags[currentFlagIndex].SetActive(true);
+
+            if (currentFlagIndex < targetColorTextures.Length && currentFlagIndex < targetHeightTextures.Length)
+            {
+                targetColor = targetColorTextures[currentFlagIndex];
+                targetHeight = targetHeightTextures[currentFlagIndex];
+                
+                SetTargetTextures(targetColor, targetHeight);
+                
+                comparisonShader.SetTexture(_kernel, "TargetColor", targetColor);
+                comparisonShader.SetTexture(_kernel, "TargetHeight", targetHeight);
+            }
+            else
+            {
+                Debug.LogWarning("No matching textures for the next flag!");
+            }
+        }
+        else
+        {
+            Debug.Log("All flags completed! Well Done!");
+        }
     }
 
     public int GetScore() => computedScore;
