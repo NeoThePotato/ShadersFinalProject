@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Extensions;
 
 public class SphereComparisonSystem : MonoBehaviour
 {
@@ -9,36 +11,35 @@ public class SphereComparisonSystem : MonoBehaviour
     [Header("Textures")]
     [SerializeField] private RenderTexture playerColor;
     [SerializeField] private RenderTexture playerHeight;
-    [SerializeField] private Texture targetColor;
-    [SerializeField] private Texture targetHeight;
 
     [Header("Settings")]
     [Range(0.1f, 10f)]
     [SerializeField] private float difficultyMultiplier = 1.0f;
-
-    [Header("Output")]
-    [SerializeField] private int computedScore;
     
     [Header("UI")]
-    [SerializeField] private Slider accuracyBar;
+	[SerializeField] private Material referenceMat;
+	[SerializeField] private Slider accuracyBar;
     [SerializeField] private TMPro.TMP_Text scoreText;
     
     [Header("Target Flags")]
-    [SerializeField] private Texture[] targetColorTextures;
-    [SerializeField] private Texture[] targetHeightTextures;
-    [SerializeField] private GameObject[] targetRefFlags;
-    private int currentFlagIndex = 0;
+    [SerializeField] private Reference[] references;
 
-    private ComputeBuffer _resultBuffer;
+    private Reference currentReference;
+	private ComputeBuffer _resultBuffer;
     private int _kernel;
     private int _resolution;
-    
-    private void Awake()
+	private int computedScore;
+
+	private Texture ReferenceColor => currentReference.color;
+	private Texture ReferenceHeight => currentReference.height;
+
+	private void Awake()
     {
         _kernel = comparisonShader.FindKernel("CSMain");
-    }
+        NextFlag();
+	}
 
-    public void Comparison()
+	public void Comparison()
     {
         if (playerColor == null || playerHeight == null)
         {
@@ -57,9 +58,9 @@ public class SphereComparisonSystem : MonoBehaviour
         _resultBuffer = new ComputeBuffer(totalPixels, sizeof(float));
 
         comparisonShader.SetTexture(_kernel, "PlayerColor", playerColor);
-        comparisonShader.SetTexture(_kernel, "TargetColor", targetColor);
+        comparisonShader.SetTexture(_kernel, "TargetColor", ReferenceColor);
         comparisonShader.SetTexture(_kernel, "PlayerHeight", playerHeight);
-        comparisonShader.SetTexture(_kernel, "TargetHeight", targetHeight);
+        comparisonShader.SetTexture(_kernel, "TargetHeight", ReferenceHeight);
 
         comparisonShader.SetFloat("DifficultyScale", difficultyMultiplier);
         comparisonShader.SetInt("TextureResolution", _resolution);
@@ -133,12 +134,13 @@ public class SphereComparisonSystem : MonoBehaviour
         comparisonShader.SetFloat("DifficultyScale", difficultyMultiplier);
     }
     
-    public void SetTargetTextures(Texture color, Texture height)
+    private void SetReferenceTextures(Reference reference)
     {
-        targetColor = color;
-        targetHeight = height;
-        comparisonShader.SetTexture(_kernel, "TargetColor", targetColor);
-        comparisonShader.SetTexture(_kernel, "TargetHeight", targetHeight);
+        currentReference = reference;
+		referenceMat.SetTexture("_Color", ReferenceColor);
+		referenceMat.SetTexture("_Height", ReferenceHeight);
+		comparisonShader.SetTexture(_kernel, "TargetColor", ReferenceColor);
+        comparisonShader.SetTexture(_kernel, "TargetHeight", ReferenceHeight);
     }
 
     public void SetPlayerTextures(RenderTexture color, RenderTexture height)
@@ -159,41 +161,19 @@ public class SphereComparisonSystem : MonoBehaviour
 
     private void NextFlag()
     {
-        if (targetRefFlags == null || targetRefFlags.Length == 0)
-            return;
-
-        if (currentFlagIndex < targetRefFlags.Length)
-            targetRefFlags[currentFlagIndex].SetActive(false);
-
-        currentFlagIndex++;
-
-        if (currentFlagIndex < targetRefFlags.Length)
-        {
-            targetRefFlags[currentFlagIndex].SetActive(true);
-
-            if (currentFlagIndex < targetColorTextures.Length && currentFlagIndex < targetHeightTextures.Length)
-            {
-                targetColor = targetColorTextures[currentFlagIndex];
-                targetHeight = targetHeightTextures[currentFlagIndex];
-                
-                SetTargetTextures(targetColor, targetHeight);
-                
-                comparisonShader.SetTexture(_kernel, "TargetColor", targetColor);
-                comparisonShader.SetTexture(_kernel, "TargetHeight", targetHeight);
-            }
-            else
-            {
-                Debug.LogWarning("No matching textures for the next flag!");
-            }
-            
-            ClearRenderTexture(playerColor);
-            ClearRenderTexture(playerHeight);
-        }
-        else
-        {
-            Debug.Log("All flags completed! Well Done!");
-        }
+        SetReferenceTextures(references.GetRandom());
+        ClearRenderTexture(playerColor);
+        ClearRenderTexture(playerHeight);
     }
 
     public int GetScore() => computedScore;
+
+    [Serializable]
+    private struct Reference : IEquatable<Reference>
+    {
+        public Texture color;
+        public Texture height;
+
+		public readonly bool Equals(Reference other) => color.Equals(other.color) && height.Equals(other.height);
+	}
 }

@@ -2038,11 +2038,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524905576}
   m_CullTransparentMesh: 1
---- !u!1 &1761458955 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6196667347354010425, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
-  m_PrefabInstance: {fileID: 919693766}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1900683510 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8509264015686538413, guid: 4a7ffa125e27c98449e3c0ab0d1cce81, type: 3}
@@ -2086,42 +2081,32 @@ MonoBehaviour:
   comparisonShader: {fileID: 7200000, guid: d95246a5f6aa58f448a444217c3cb54d, type: 3}
   playerColor: {fileID: 8400000, guid: f84e5820f83a39c43b7ae0dc97425aa7, type: 2}
   playerHeight: {fileID: 8400000, guid: 0e3318a86a0f6994ba2b0d2ad86d7909, type: 2}
-  targetColor: {fileID: 2800000, guid: 6d9dfb4e75392624585f2dfdbcee5168, type: 3}
-  targetHeight: {fileID: 2800000, guid: f4640416192546a4dbe2e01997d48e8c, type: 3}
   difficultyMultiplier: 1
   computedScore: 0
+  referenceMat: {fileID: 2100000, guid: abe5847a1f372344a9aec3844f8bcd86, type: 2}
   accuracyBar: {fileID: 919693768}
   scoreText: {fileID: 1900683510}
-  targetColorTextures:
-  - {fileID: 2800000, guid: 6d9dfb4e75392624585f2dfdbcee5168, type: 3}
-  - {fileID: 2800000, guid: 79ca25179030f67458ece02a68bfbafd, type: 3}
-  - {fileID: 2800000, guid: 632a40410bb329c418a9ac1b20d61047, type: 3}
-  - {fileID: 2800000, guid: ec984c39f0bcfa743b971f76fe7e4292, type: 3}
-  - {fileID: 2800000, guid: 1d22d12bfad654444b8bfa50bf50c052, type: 3}
-  - {fileID: 2800000, guid: 02a853a1febd41d4ca9f6c948cc37a74, type: 3}
-  - {fileID: 2800000, guid: ea4ab2f5dc04b19478f142b14d6527a7, type: 3}
-  - {fileID: 2800000, guid: 78bfc376273646044a1d5fede5cf28c6, type: 3}
-  - {fileID: 2800000, guid: c14422cc6d9b05f4682c1c2e7e7a15cb, type: 3}
-  targetHeightTextures:
-  - {fileID: 2800000, guid: f4640416192546a4dbe2e01997d48e8c, type: 3}
-  - {fileID: 2800000, guid: 1201ac750180ef6429ae2fba348ff65f, type: 3}
-  - {fileID: 2800000, guid: aeb87e2f3c9689c4d972be737882c719, type: 3}
-  - {fileID: 2800000, guid: 3701f18cd0784ab4d99f4cceac43d2c0, type: 3}
-  - {fileID: 2800000, guid: 9d850edf9310d26498a21efc69c32985, type: 3}
-  - {fileID: 2800000, guid: a9ff7c72adf359f468c17c85b20e4ada, type: 3}
-  - {fileID: 2800000, guid: ae6c5202c0b764d4ba4b533bfc5491e8, type: 3}
-  - {fileID: 2800000, guid: cc39b6e2136beea42a384a628b134aa8, type: 3}
-  - {fileID: 2800000, guid: fdb890400c8bd4a4e8c9ecc82a4ad650, type: 3}
-  targetRefFlags:
-  - {fileID: 1761458955}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  references:
+  - color: {fileID: 2800000, guid: 6d9dfb4e75392624585f2dfdbcee5168, type: 3}
+    height: {fileID: 2800000, guid: f4640416192546a4dbe2e01997d48e8c, type: 3}
+  - color: {fileID: 2800000, guid: 79ca25179030f67458ece02a68bfbafd, type: 3}
+    height: {fileID: 2800000, guid: 1201ac750180ef6429ae2fba348ff65f, type: 3}
+  - color: {fileID: 2800000, guid: 632a40410bb329c418a9ac1b20d61047, type: 3}
+    height: {fileID: 2800000, guid: aeb87e2f3c9689c4d972be737882c719, type: 3}
+  - color: {fileID: 2800000, guid: ec984c39f0bcfa743b971f76fe7e4292, type: 3}
+    height: {fileID: 2800000, guid: 3701f18cd0784ab4d99f4cceac43d2c0, type: 3}
+  - color: {fileID: 2800000, guid: 1d22d12bfad654444b8bfa50bf50c052, type: 3}
+    height: {fileID: 2800000, guid: 9d850edf9310d26498a21efc69c32985, type: 3}
+  - color: {fileID: 2800000, guid: 02a853a1febd41d4ca9f6c948cc37a74, type: 3}
+    height: {fileID: 2800000, guid: a9ff7c72adf359f468c17c85b20e4ada, type: 3}
+  - color: {fileID: 2800000, guid: ea4ab2f5dc04b19478f142b14d6527a7, type: 3}
+    height: {fileID: 2800000, guid: ae6c5202c0b764d4ba4b533bfc5491e8, type: 3}
+  - color: {fileID: 2800000, guid: 78bfc376273646044a1d5fede5cf28c6, type: 3}
+    height: {fileID: 2800000, guid: cc39b6e2136beea42a384a628b134aa8, type: 3}
+  - color: {fileID: 2800000, guid: c14422cc6d9b05f4682c1c2e7e7a15cb, type: 3}
+    height: {fileID: 2800000, guid: fdb890400c8bd4a4e8c9ecc82a4ad650, type: 3}
+  - color: {fileID: 2800000, guid: 14b96d1a0ce90d74590a470308e17817, type: 3}
+    height: {fileID: 2800000, guid: 151a0ce6331057546afd0acf54b6848e, type: 3}
 --- !u!4 &1918173898
 Transform:
   m_ObjectHideFlags: 0
