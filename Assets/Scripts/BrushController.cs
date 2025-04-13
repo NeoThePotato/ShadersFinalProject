@@ -33,6 +33,9 @@ public class BrushController : MonoBehaviour
 
 	private void OnDestroy() => _cmd.Dispose();
 
+	/// <summary>
+	/// Calls <see cref="BlitBrush"/> if <see cref="Brush.PaintingMode"/> is active.
+	/// </summary>
 	private void Update()
     {
 		if (!_brush.PaintingMode)
@@ -42,6 +45,9 @@ public class BrushController : MonoBehaviour
 		Graphics.ExecuteCommandBuffer(_cmd);
 	}
 
+	/// <summary>
+	/// Sets the <paramref name="brushData"/> values unto <see cref="_brushMaterial"/> and Blits it.
+	/// </summary>
 	private void BlitBrush(CommandBuffer cmd, in BrushData brushData)
 	{
 		_brushMaterial.SetTexture(BLIT_TEXTURE, brushData.texture);
@@ -98,6 +104,9 @@ public class BrushController : MonoBehaviour
 	}
 }
 
+/// <summary>
+/// Various extension methods for <see cref="BrushData"/>.
+/// </summary>
 public static class BrushExtensions
 {
 	/// <param name="source">Source <see cref="BrushData"/>.</param>

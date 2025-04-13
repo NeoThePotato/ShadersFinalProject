@@ -114,7 +114,14 @@
             "m_Id": "0079a915e5dd44cb954d2c02a9fdf399"
         }
     ],
-    "m_StickyNoteDatas": [],
+    "m_StickyNoteDatas": [
+        {
+            "m_Id": "9b8f6e71c2614d7f882543855ea84a4e"
+        },
+        {
+            "m_Id": "c1152eba7d5d43dcb9453b1c9e838ae3"
+        }
+    ],
     "m_Edges": [
         {
             "m_OutputSlot": {
@@ -2183,6 +2190,26 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "9b8f6e71c2614d7f882543855ea84a4e",
+    "m_Title": "Blit Scale and Bias",
+    "m_Content": "Makes sure that BlitTexture maps to where the brush is in UV space. Handles brush scale and position.",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -117.0,
+        "y": -422.0,
+        "width": 209.09829711914063,
+        "height": 160.0
+    },
+    "m_Group": {
+        "m_Id": ""
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.NormalMaterialSlot",
     "m_ObjectId": "a23b3b9b905e4e4185acabcfb6f9de35",
     "m_Id": 0,
@@ -2633,6 +2660,26 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "c1152eba7d5d43dcb9453b1c9e838ae3",
+    "m_Title": "Color/Texture Adjustments",
+    "m_Content": "Samples the brush texture, adjusts for color and intensity and applies it to the output. (I couldn't figure out how to make it \"Read\" the value already in the output texture in order to blend with the already existing texture.",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -364.0,
+        "y": 661.0,
+        "width": 280.1512451171875,
+        "height": 160.0
+    },
+    "m_Group": {
+        "m_Id": ""
+    }
 }
 
 {

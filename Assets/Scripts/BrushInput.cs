@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using Unity.Burst;
 using Unity.Mathematics;
 
+/// <summary>
+/// Binds user input to manipulate <see cref="BrushController"/>.
+/// </summary>
 public class BrushInput : MonoBehaviour
 {
 	[SerializeField] private BrushController _brushController;
@@ -63,6 +66,9 @@ public class BrushInput : MonoBehaviour
 			_scaleSlider.onValueChanged.RemoveListener(OnSizeChanged);
 	}
 
+	/// <summary>
+	/// Reads user input and sets the values in <see cref="Brush"/>.
+	/// </summary>
 	private void Update()
 	{
 		if (Brush.PaintingMode = PaintActive(out var hit, out var intensity))

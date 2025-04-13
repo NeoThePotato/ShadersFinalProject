@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Rotates the camera pivot by mouse movement.
+/// </summary>
 public class RotateCamera : MonoBehaviour
 {
 	[SerializeField] private float _sensitivity = 0.1f;
